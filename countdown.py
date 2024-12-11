@@ -22,11 +22,11 @@ def set_font_size(font_size):
 
 
 def countdown(now):
-    piday = datetime(now.year, 3, 14)
+    piday = datetime(now.year, 9, 10)
 
-    # Add a year if we're past PiDay
+    # Add a year if we're past Wedding Day
     if piday < now:
-        piday = datetime((now.year + 1), 3, 14)
+        piday = datetime((now.year + 1), 9, 11)
 
     days = (piday - now).days
 
