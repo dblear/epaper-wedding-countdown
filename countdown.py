@@ -22,15 +22,15 @@ def set_font_size(font_size):
 
 
 def countdown(now):
-    piday = datetime(now.year, 9, 10)
+    wday = datetime(now.year, 9, 10)
 
     # Add a year if we're past Wedding Day
-    if piday < now:
-        piday = datetime((now.year + 1), 9, 11)
+    if wday < now:
+        wday = datetime((now.year + 1), 9, 11)
 
-    days = (piday - now).days
+    days = (wday - now).days
 
-    logging.info(f"Days till piday: {days}")
+    logging.info(f"Days till wedding day: {days}")
     return days
 
 
@@ -73,16 +73,16 @@ def main():
         logging.info("Display text and BMP")
         epd.display(epd.getbuffer(image))
 
-        logging.info("Pi Date countdown; press CTRL-C to exit")
-        piday_image = Image.new('1', (epd.height, epd.width), 255)
-        piday_draw = ImageDraw.Draw(piday_image)
+        logging.info("Wedding Date countdown; press CTRL-C to exit")
+        wday_image = Image.new('1', (epd.height, epd.width), 255)
+        wday_draw = ImageDraw.Draw(wday_image)
 
         # Set some more fonts
         bangers36 = set_font_size(36)
         bangers64 = set_font_size(64)
 
         # Prep for updating display
-        epd.displayPartBaseImage(epd.getbuffer(piday_image))
+        epd.displayPartBaseImage(epd.getbuffer(wday_image))
         epd.init(epd.PART_UPDATE)
 
         while (True):
@@ -90,20 +90,20 @@ def main():
             unit = get_days_unit(days)
             
             # Clear the bottom half of the screen by drawing a rectangle filld with white
-            piday_draw.rectangle((0, 50, 250, 122), fill = 255)
+            wday_draw.rectangle((0, 50, 250, 122), fill = 255)
 
             # Draw the Header
-            piday_draw.text((10,10), "Days till Pi-day:", font = bangers36, fill = 0)
+            wday_draw.text((10,10), "Days till  Wedding day:", font = bangers36, fill = 0)
 
             if days == 0:
                 # Draw the Pi Day celebration text!
-                piday_draw.text((0, 50), f"It's Pi Day!", font = bangers64, fill = 0)
+                wday_draw.text((0, 50), f"It's Our Wedding  Day!", font = bangers64, fill = 0)
             else:
                 # Draw how many days until Pi Day
-                piday_draw.text((00, 50), f"{str(days)} {unit}", font = bangers64, fill = 0)
+                wday_draw.text((00, 50), f"{str(days)} {unit}", font = bangers64, fill = 0)
 
             # Render the screen
-            epd.displayPartial(epd.getbuffer(piday_image))
+            epd.displayPartial(epd.getbuffer(wday_image))
             time.sleep(5)
 
 
